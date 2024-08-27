@@ -1,15 +1,39 @@
 const sql = {
-    get: '',
-    set:''
+    getDetail: '',
+    setDetail:'',
+    accountingDetail:[],
+    q :(table,list)=>{
+        return `
+INSERT INTO ${table} 
+(${ list.join(', ')}) 
+VALUES
+(list.map(() => '?').join(','))`
+    },
+    s :(table,list)=>{
+        return `
+INSERT INTO ${table} 
+(${ list.join(', ')}) 
+VALUES
+(list.map(() => '?').join(','))`
+    },
+
     
 }
-sql.set = `
-INSERT INTO ACCOUNT_BOOK_DETAIL 
-(column1, column2) 
-VALUES
-(?, ?)`
 
-sql.get = `SELECT * FROM user;`
+const accounting_detail  = [
+    // 'id',
+    'userId','money','type','date','business','bigType','notes','imgUrl','sort'
+]
+
+
+
+sql.setDetail = `
+INSERT INTO accounting_detail 
+(${ accounting_detail.join(', ')}) 
+VALUES
+(${accounting_detail.map(() => '?').join(',')})`
+
+sql.getDetail = `SELECT * FROM user;`
 
 
 module.exports = sql
