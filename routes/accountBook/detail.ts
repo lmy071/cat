@@ -4,20 +4,17 @@ const sql = require('./sql.ts');
 const sqlQuery = require("../../utils/mysql.ts");
 
 /* GET users listing. */
-router.post("/post", function (req, res, next) {
+router.post("/get", function (req, res, next) {
   sqlQuery(sql.get,[])
       .then((data) => {
     res.send(data);
   })
-
-
-
 });
 
 router.post("/set", function (req, res, next) {
     const b = req.body;
     const v = [
-        b.userId,
+        req.headers['userid'],
         b.money,
         b.type,
         b.date,

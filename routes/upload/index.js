@@ -1,6 +1,8 @@
 const multer = require('multer');
 const path = require('path');
 const express = require("express");
+const sqlQuery = require("../../utils/mysql.ts");
+const sql = require("../accountBook/sql.ts");
 var router = express.Router();
 
 
@@ -29,8 +31,15 @@ router.post('/img', upload.single('image'),(req, res) => {
     if (!file) {
         return res.status(400).send('请选择要上传的图片')
     }
-    const filePath = path.join(__dirname,  '../../../images/accountBook', req.file.filename);
-    res.send({ message: '文件上传成功', filePath: filePath })
+    const baseUrl = 'http://47.97.5.199:80'
+    const filePath =baseUrl+ '/images/accountBook/' +req.file.filename;
+    // const sql = 'INSERT INTO accounting_detail (imgUrl) VALUES (?)'
+    // sqlQuery(sql,[filePath])
+    //     .then((data) => {
+    //         res.send(data);
+    //     })
+
+    res.status(200).send({ message: '图片上传成功', imgUrl: filePath })
 
 });
 
