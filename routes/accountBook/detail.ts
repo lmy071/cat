@@ -5,7 +5,10 @@ const sqlQuery = require("../../utils/mysql.ts");
 
 /* GET users listing. */
 router.post("/get", function (req, res, next) {
-  sqlQuery(sql.get,[])
+    const params = [ Number(req.headers['userid'])]
+    console.log(sql.getDetail,params)
+    // console.log(sql.getDetail.replace(/?/g, () => `'${params.shift()}'`));
+  sqlQuery(sql.getDetail,params)
       .then((data) => {
     res.send(data);
   })
