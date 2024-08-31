@@ -4,7 +4,7 @@ const express = require("express");
 const sqlQuery = require("../../utils/mysql.ts");
 const sql = require("../accountBook/sql.ts");
 var router = express.Router();
-
+const {formatDate} = require("../../utils/util.ts")
 
 // 设置文件存储的目录
 
@@ -18,7 +18,7 @@ const storage = multer.diskStorage({
     filename: function (req, file, cb) {
         const userId = req.header('userId') || 'null'
         const extname = path.extname(file.originalname) // 获取文件后缀名
-        const filename = userId+'-'+Date.now()  + extname     // 时间戳+后缀名 生成唯一文件名
+        const filename = userId+'-'+formatDate(new Date())  + extname     // 时间戳+后缀名 生成唯一文件名
         cb(null, filename)
     }
 })

@@ -2,6 +2,7 @@ const sql = {
     getDetail: '',
     setDetail:'',
     accountingDetail:[],
+    getDayTotal:'',
     q :(table,list)=>{
         return `
 INSERT INTO ${table} 
@@ -43,6 +44,19 @@ FROM accounting_detail ad
 WHERE userId = ?  
 ORDER BY date DESC  
 LIMIT 100;`
+
+sql.getDayTotal = `
+SELECT DATE_FORMAT(date, '%Y-%m-%d') AS date,
+(SELECT d.label FROM dict d WHERE d.value = ad.type and d.dictName = 'detailType' LIMIT 1) AS typeLabel,
+(SELECT d.label FROM dict d WHERE d.value = ad.business and d.dictName = 'business' LIMIT 1) AS businessLabel,
+(SELECT d.label FROM dict d WHERE d.value = ad.bigType and d.dictName = 'bigType' LIMIT 1) AS bigTypeLabel,
+  money,notes,imgUrl,sort
+FROM accounting_detail ad 
+WHERE DATE(date) > DATE_SUB(CURDATE(), INTERVAL ? DAY)
+AND DATE(date) <= CURDATE()
+and userId = ?;
+
+`
 
 
 module.exports = sql
