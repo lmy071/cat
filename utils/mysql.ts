@@ -16,6 +16,9 @@ connection.connect((err) => {
 
 });
 
+const  t = setInterval(()=>{
+    connection.connect()
+},8*60*60);
 
 
 
