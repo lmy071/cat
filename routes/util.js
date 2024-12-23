@@ -1,6 +1,6 @@
 var express = require("express");
 var router = express.Router();
-const sqlQuery = require("../utils/mysql.ts");
+const sqlQuery = require("../utils/pool.js");
 
 /* GET users listing. */
 router.post("/getDict", function (req, res, next) {

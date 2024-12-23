@@ -1,15 +1,14 @@
 var express = require('express');
 var router = express.Router();
-const sqlQuery = require("../utils/mysql.ts");
+const pool = require("../utils/pool.js");
 const jwt = require('jsonwebtoken');
 // const bcrypt = require('bcryptjs');
 /* GET users listing. */
 router.post('/login', async function(req, res, next) {
   const { username, password } = req.body;
-
   try {
     // 查找用户
-    const row = await  sqlQuery('SELECT * FROM user WHERE id = ?', [username]);
+    const row = await  pool.q('SELECT * FROM user WHERE id = ?', [username]);
     const user = row.data[0]
     if (!user) return res.status(401).json({ message: 'Invalid credentials' });
 
@@ -25,7 +24,7 @@ router.post('/login', async function(req, res, next) {
     const tokenExpires = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000); // 30 天后过期
     console.log([token, tokenExpires,new Date(),new Date(), user.id])
 
-    await sqlQuery('UPDATE user SET token = ?, tokenExpires = ? ,lastLoginTime = ?,updatedTime = ? WHERE id = ?',[token, tokenExpires,new Date(),new Date(), user.id] );
+    await pool.q('UPDATE user SET token = ?, tokenExpires = ? ,lastLoginTime = ?,updatedTime = ? WHERE id = ?',[token, tokenExpires,new Date(),new Date(), user.id] );
 
     res.json({ token,userId: user.id });
   } catch (err) {

@@ -1,8 +1,8 @@
 const multer = require('multer');
 const path = require('path');
 const express = require("express");
-const sqlQuery = require("../../utils/mysql.ts");
-const sql = require("../accountBook/sql.ts");
+const sqlQuery = require("../../utils/pool.js");
+const pool = require("../accountBook/sql.ts");
 var router = express.Router();
 const {formatDate} = require("../../utils/util.ts")
 
